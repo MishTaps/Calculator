@@ -1,118 +1,132 @@
 .body {
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1E1E1E;
-    height: 100vh;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1e1e;
+  height: 100vh;
 }
 .calculator {
-    background-color: #242530;
-    width: 400px;
-    height: 340px;
+  background-color: #242530;
+  width: 400px;
+  height: 340px;
 }
 .calculator__top {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+}
+.monitor__action {
+  color: white;
+  font-size: 30px;
+  padding: 0 0 0 14px;
+  margin: -30px 0 0 0;
 }
 .monitor__text {
-    color: white;
-    font-size: 44px;
-    padding: 0 14px 0 0;
+  color: white;
+  font-size: 44px;
+  padding: 0 14px 0 0;
+}
+.monitor__error {
+  padding: 5px 5px 0 0;
+  width: 50px;
+  height: 50px;
 }
 .calculator__monitor {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    width: 350px;
-    height: 70px;
-    background-color: #3A3F77;
-    border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 350px;
+  height: 70px;
+  background-color: #3a3f77;
+  border-radius: 20px;
 }
 .calculator__workspace {
-    display: grid;
-    grid-template-columns: 80px 80px 80px 55px 55px;
-    grid-template-rows: repeat(4, 50px);
-    justify-content: center;
-    grid-template-areas:
-        "one two three multiply divide"
-        "four five six plus minus"
-        "seven eight nine percent exp"
-        "null dots del equals equals"
+  display: grid;
+  grid-template-columns: 80px 80px 80px 55px 55px;
+  grid-template-rows: repeat(4, 50px);
+  justify-content: center;
+  grid-template-areas:
+    'num1 num2 num3 multiply divide'
+    'num4 num5 num6 plus minus'
+    'num7 num8 num9 percent exp'
+    'num0 dots del equals equals';
 }
 .workspace__button_grey {
-    background-color: #404258;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35px;
-    margin: 4px 12px;
+  background-color: #404258;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 35px;
+  margin: 4px 12px;
+  border-width: 0;
 }
 .workspace__button_grey:hover {
-    background-color: #54566d;
+  background-color: #54566d;
 }
 .workspace__button_grey:nth-child(1) {
-    grid-area: one;
+  grid-area: num1;
 }
 .workspace__button_grey:nth-child(2) {
-    grid-area: two;
+  grid-area: num2;
 }
 .workspace__button_grey:nth-child(3) {
-    grid-area: three;
+  grid-area: num3;
 }
 .workspace__button_grey:nth-child(4) {
-    grid-area: four;
+  grid-area: num4;
 }
 .workspace__button_grey:nth-child(5) {
-    grid-area: five;
+  grid-area: num5;
 }
 .workspace__button_grey:nth-child(6) {
-    grid-area: six;
+  grid-area: num6;
 }
 .workspace__button_grey:nth-child(7) {
-    grid-area: seven;
+  grid-area: num7;
 }
 .workspace__button_grey:nth-child(8) {
-    grid-area: eight;
+  grid-area: num8;
 }
 .workspace__button_grey:nth-child(9) {
-    grid-area: nine;
+  grid-area: num9;
 }
 .workspace__button_grey:nth-child(10) {
-    grid-area: dots;
+  grid-area: dots;
 }
 .workspace__button_grey:nth-child(11) {
-    grid-area: null;
+  grid-area: num0;
 }
 .workspace__button_grey:nth-child(12) {
-    grid-area: del;
-    font-size: 18px;
+  grid-area: del;
+  font-size: 18px;
 }
 .workspace__button_orange {
-    background-color: #F49D1A;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35px;
-    margin: 4px 6px;
+  background-color: #f49d1a;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 35px;
+  margin: 4px 6px;
+  border-width: 0;
 }
 .workspace__button_orange:hover {
-    background-color: #d18718;
+  background-color: #d18718;
 }
 .workspace__button_lightGrey {
-    background-color: #B2B2B2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 35px;
-    grid-area: equals;
-    margin: 4px 6px;
-    font-size: 40px;
+  background-color: #b2b2b2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 35px;
+  grid-area: equals;
+  margin: 4px 6px;
+  font-size: 40px;
+  border-width: 0;
 }
 .workspace__button_lightGrey:hover {
-    background-color: #cbc8c8;
+  background-color: #cbc8c8;
 }
