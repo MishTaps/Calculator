@@ -1,147 +1,291 @@
 // Информация в мониторе
 let monitorText = document.querySelector('.monitor__text');
 let monitorAction = document.querySelector('.monitor__action');
+// Максимальная длина чисел в мониторе
+let maxMonitorText = 13;
 
 // Информация о действиях
-let isActionWasClicked,
-	isActionActive,
-	isPlusWasClicked,
-	isMinusWasClicked,
-	isMultiplyWasClicked,
-	isDivideWasClicked,
-	isEpxWasClicked,
-	isEqualsWasClicked,
-	isDotWasClicked,
-	isPercentWasClicked = false;
+let actionNow = null;
+let isActionJustClicked,
+	isError,
+	isEqualsJustClicked,
+	isPercentWasClicked,
+	isDotWasClicked = false;
 
 // Числа, над которыми производятся действия
 let firstNumber,
 	secondNumber,
 	finalNumber = null;
 
-// Функции операций
+// Функции кнопок
 function actionPlus() {
-	isActionWasClicked = true;
-	isActionActive = true;
-	isPlusWasClicked = true;
-	monitorAction.innerHTML = '+';
-	firstNumber = monitorText.textContent;
-}
-function actionMinus() {
-	isActionWasClicked = true;
-	isActionActive = true;
-	isMinusWasClicked = true;
-	monitorAction.innerHTML = '-';
-	firstNumber = monitorText.textContent;
-}
-function actionMultiply() {
-	isActionWasClicked = true;
-	isActionActive = true;
-	isMultiplyWasClicked = true;
-	monitorAction.innerHTML = '*';
-	firstNumber = monitorText.textContent;
-}
-function actionDivide() {
-	isActionWasClicked = true;
-	isDivideWasClicked = true;
-	isActionActive = true;
-	monitorAction.innerHTML = '/';
-	firstNumber = monitorText.textContent;
-}
-function actionExp() {
-	isActionWasClicked = true;
-	isEpxWasClicked = true;
-	monitorAction.innerHTML = '^';
-	firstNumber = monitorText.textContent;
-}
-function actionPercent() {
-	if (isPercentWasClicked) {
+	if (isActionJustClicked) {
+		monitorAction.innerHTML = '+';
+		actionNow = '+';
 		return;
 	}
-	isPercentWasClicked = true;
-	if (firstNumber) {
+	isActionJustClicked = true;
+	if (actionNow) {
 		secondNumber = monitorText.textContent;
-		alert(secondNumber);
+		doAction();
+		if (checkUnexpectedError()) {
+			return;
+		}
+		monitorText.innerHTML = finalNumber;
+		if (checkMaxLength()) {
+			return;
+		}
+		firstNumber = finalNumber;
+		actionNow = '+';
 	} else {
+		actionNow = '+';
+		monitorAction.innerHTML = '+';
 		firstNumber = monitorText.textContent;
-		alert(firstNumber);
 	}
-	monitorText.innerHTML += '%';
+}
+function actionMinus() {
+	if (isActionJustClicked) {
+		monitorAction.innerHTML = '-';
+		actionNow = '-';
+		return;
+	}
+	isActionJustClicked = true;
+	if (actionNow) {
+		secondNumber = monitorText.textContent;
+		doAction();
+		if (checkUnexpectedError()) {
+			return;
+		}
+		monitorText.innerHTML = finalNumber;
+		if (checkMaxLength()) {
+			return;
+		}
+		firstNumber = finalNumber;
+		actionNow = '-';
+	} else {
+		actionNow = '-';
+		monitorAction.innerHTML = '-';
+		firstNumber = monitorText.textContent;
+	}
+}
+function actionMultiply() {
+	if (isActionJustClicked) {
+		monitorAction.innerHTML = '*';
+		actionNow = '*';
+		return;
+	}
+	isActionJustClicked = true;
+	if (actionNow) {
+		secondNumber = monitorText.textContent;
+		doAction();
+		if (checkUnexpectedError()) {
+			return;
+		}
+		monitorText.innerHTML = finalNumber;
+		if (checkMaxLength()) {
+			return;
+		}
+		firstNumber = finalNumber;
+		actionNow = '*';
+	} else {
+		actionNow = '*';
+		monitorAction.innerHTML = '*';
+		firstNumber = monitorText.textContent;
+	}
+}
+function actionDivide() {
+	if (isActionJustClicked) {
+		monitorAction.innerHTML = '/';
+		actionNow = '/';
+		return;
+	}
+	isActionJustClicked = true;
+	if (actionNow) {
+		secondNumber = monitorText.textContent;
+		doAction();
+		if (checkUnexpectedError()) {
+			return;
+		}
+		monitorText.innerHTML = finalNumber;
+		if (checkMaxLength()) {
+			return;
+		}
+		firstNumber = finalNumber;
+		actionNow = '/';
+	} else {
+		actionNow = '/';
+		monitorAction.innerHTML = '/';
+		firstNumber = monitorText.textContent;
+	}
+}
+function actionExp() {
+	if (isActionJustClicked) {
+		monitorAction.innerHTML = '^';
+		actionNow = '^';
+		return;
+	}
+	isActionJustClicked = true;
+	if (actionNow) {
+		secondNumber = monitorText.textContent;
+		doAction();
+		if (checkUnexpectedError()) {
+			return;
+		}
+		monitorText.innerHTML = finalNumber;
+		if (checkMaxLength()) {
+			return;
+		}
+		firstNumber = finalNumber;
+		actionNow = '^';
+	} else {
+		actionNow = '^';
+		monitorAction.innerHTML = '^';
+		firstNumber = monitorText.textContent;
+	}
+}
+function actionPercent() {
+	if (!isPercentWasClicked) {
+		isPercentWasClicked = true;
+		if (firstNumber) {
+			secondNumber = (firstNumber / 100) * monitorText.textContent;
+			monitorText.innerHTML = secondNumber;
+			if (checkMaxLength()) {
+				return;
+			}
+		} else {
+			firstNumber = monitorText.textContent / 100;
+			finalNumber = firstNumber;
+			if (checkUnexpectedError()) {
+				return;
+			}
+			monitorText.innerHTML = firstNumber;
+			if (checkMaxLength()) {
+				return;
+			}
+		}
+	}
 }
 function doAction() {
-	if (isPlusWasClicked) {
-		finalNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
-	}
-	if (isMinusWasClicked) {
-		finalNumber = parseFloat(firstNumber) - parseFloat(secondNumber);
-	}
-	if (isMultiplyWasClicked) {
-		finalNumber = parseFloat(firstNumber) * parseFloat(secondNumber);
-	}
-	if (isDivideWasClicked) {
-		finalNumber = parseFloat(firstNumber) / parseFloat(secondNumber);
-	}
-	if (isEpxWasClicked) {
-		finalNumber = Math.pow(parseFloat(firstNumber), parseFloat(secondNumber));
+	switch (actionNow) {
+		case '+':
+			finalNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
+			finalNumber = parseFloat(finalNumber.toFixed(3));
+			break;
+		case '-':
+			finalNumber = parseFloat(firstNumber) - parseFloat(secondNumber);
+			finalNumber = parseFloat(finalNumber.toFixed(3));
+			break;
+		case '*':
+			finalNumber = parseFloat(firstNumber) * parseFloat(secondNumber);
+			break;
+		case '/':
+			finalNumber = parseFloat(firstNumber) / parseFloat(secondNumber);
+			finalNumber = parseFloat(finalNumber.toFixed(5));
+			break;
+		case '^':
+			finalNumber = Math.pow(parseFloat(firstNumber), parseFloat(secondNumber));
+			finalNumber = parseFloat(finalNumber.toFixed(5));
+			break;
+		case '%':
+			finalNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
+			finalNumber = parseFloat(finalNumber.toFixed(3));
+			break;
+		default:
+			break;
 	}
 }
 function actionEquals() {
-	isEqualsWasClicked = true;
-	monitorAction.innerHTML = '=';
-	secondNumber = monitorText.textContent;
-	if (isPercentWasClicked) {
-		if (!isActionActive) {
-			finalNumber = firstNumber / 100;
-		} else {
-			secondNumber = (firstNumber / 100) * secondNumber;
-			alert(firstNumber);
-			alert(secondNumber);
-			doAction();
-		}
-	}
-	doAction();
-	if (!isFinite(finalNumber)) {
-		monitorText.innerHTML = "<img src='img/error.gif' alt='error' class='monitor__error'>";
+	isEqualsJustClicked = true;
+	if (isActionJustClicked || !firstNumber) {
+		monitorAction.innerHTML = '=';
 		return;
 	}
-	isPercentWasClicked = false;
-	isActionActive = false;
+	secondNumber = monitorText.textContent;
+	doAction();
+	if (checkUnexpectedError()) {
+		return;
+	}
 	monitorText.innerHTML = finalNumber;
+	if (checkMaxLength()) {
+		return;
+	}
+	actionNow = null;
+	monitorAction.innerHTML = '=';
 	return;
 }
-
-// Событие для кнопок-чисел
-let elemNumber = document.querySelectorAll('#num');
-for (let i = 0; i <= 9; i++) {
-	elemNumber[i].onclick = function (event) {
-		if (monitorText.textContent == '0' || isActionWasClicked) {
-			isDotWasClicked = false;
-			monitorText.innerHTML = this.value;
-			isActionWasClicked = false;
-		} else {
-			monitorText.innerHTML += this.value;
-		}
-	};
-}
-
-// Событие для кнопки удаления
-let elemDelete = document.querySelector('#del');
-elemDelete.onclick = function (event) {
+function actionDel() {
 	monitorText.innerHTML = 0;
-	isDotWasClicked = false;
 	monitorAction.innerHTML = '';
-	isPercentWasClicked = false;
-	isActionActive = false;
-};
-
-// Событие для кнопки-точки
-let elemDot = document.querySelector('#dot');
-elemDot.onclick = function (event) {
-	if (isDotWasClicked == false) {
+	resetAll();
+}
+function addDot() {
+	if (!isDotWasClicked) {
 		monitorText.innerHTML += this.value;
+		if (checkMaxLength()) {
+			return;
+		}
 		isDotWasClicked = true;
 	}
-};
+}
+function addNumber() {
+	if (isError) {
+		resetAll();
+		isError = true;
+		return;
+	}
+	if (monitorText.textContent == '0' || isActionJustClicked || isEqualsJustClicked || isError) {
+		isActionJustClicked = false;
+		isEqualsJustClicked = false;
+		isPercentWasClicked = false;
+		isDotWasClicked = false;
+		isError = false;
+		monitorText.innerHTML = this.value;
+	} else {
+		monitorText.innerHTML += this.value;
+		checkMaxLength();
+	}
+}
+// Сброс параметров, переменных
+function resetAll() {
+	actionNow = null;
+	isActionJustClicked = false;
+	isEqualsJustClicked = false;
+	isPercentWasClicked = false;
+	isDotWasClicked = false;
+	isError = false;
+	firstNumber = null;
+	secondNumber = null;
+	finalNumber = null;
+}
+// Проверки на ошибки
+function checkUnexpectedError() {
+	if (!isFinite(finalNumber) || finalNumber == null) {
+		isError = true;
+		monitorText.innerHTML = "<img src='img/error.gif' alt='error' class='monitor__error'>";
+		return true;
+	}
+}
+function checkMaxLength() {
+	if (monitorText.textContent.length >= maxMonitorText) {
+		resetAll();
+		isError = true;
+		monitorText.textContent = 'too long...';
+		return true;
+	}
+}
+// Событие для кнопок-чисел (будет переписано под делегирование)
+let elemNumber = document.querySelectorAll('#num');
+for (let i = 0; i <= 9; i++) {
+	elemNumber[i].addEventListener('click', addNumber);
+}
+
+// Событие для кнопки "DEL"
+let elemDelete = document.querySelector('#del');
+elemDelete.addEventListener('click', actionDel);
+
+// Событие для кнопки "."
+let elemDot = document.querySelector('#dot');
+elemDot.addEventListener('click', addDot);
 
 // Событие для кнопки "="
 let elemEquals = document.querySelector('#equals');
