@@ -1,43 +1,44 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/normalize.css">
-</head>
-<body>
-    <script src="js/script.js"></script>
-    <div class="body">
-        <div class="calculator">
-            <div class="calculator__top">
-                <div class="calculator__monitor">
-                    <div class="monitor__text">0</div>
-                </div>
-            </div>
-            <div class="calculator__workspace">
-                <div class="workspace__button_grey">1</div>
-                <div class="workspace__button_grey">2</div>
-                <div class="workspace__button_grey">3</div>
-                <div class="workspace__button_grey">4</div>
-                <div class="workspace__button_grey">5</div>
-                <div class="workspace__button_grey">6</div>
-                <div class="workspace__button_grey">7</div>
-                <div class="workspace__button_grey">8</div>
-                <div class="workspace__button_grey">9</div>
-                <div class="workspace__button_grey">0</div>
-                <div class="workspace__button_grey">.</div>
-                <div class="workspace__button_grey">DEL</div>
-                <div class="workspace__button_orange">*</div>
-                <div class="workspace__button_orange">/</div>
-                <div class="workspace__button_orange">+</div>
-                <div class="workspace__button_orange">-</div>
-                <div class="workspace__button_orange">%</div>
-                <div class="workspace__button_orange">^</div>
-                <div class="workspace__button_lightGrey">=</div>
-            </div>
-        </div>
-    </div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Calculator</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/normalize.css" />
+	</head>
+	<body>
+		<div class="body">
+			<div class="calculator">
+				<div class="calculator__top">
+					<div class="calculator__monitor">
+						<div class="monitor__action"></div>
+						<div class="monitor__text">0</div>
+					</div>
+				</div>
+				<div class="calculator__workspace">
+					<input type="button" class="workspace__button_grey" value="1" id="num" />
+					<input type="button" class="workspace__button_grey" value="2" id="num" />
+					<input type="button" class="workspace__button_grey" value="3" id="num" />
+					<input type="button" class="workspace__button_grey" value="4" id="num" />
+					<input type="button" class="workspace__button_grey" value="5" id="num" />
+					<input type="button" class="workspace__button_grey" value="6" id="num" />
+					<input type="button" class="workspace__button_grey" value="7" id="num" />
+					<input type="button" class="workspace__button_grey" value="8" id="num" />
+					<input type="button" class="workspace__button_grey" value="9" id="num" />
+					<input type="button" class="workspace__button_grey" value="0" id="num" />
+					<input type="button" class="workspace__button_grey" value="." id="dot" />
+					<input type="button" class="workspace__button_grey" value="DEL" id="del" />
+					<input type="button" class="workspace__button_orange" value="*" id="multiply" />
+					<input type="button" class="workspace__button_orange" value="/" id="divide" />
+					<input type="button" class="workspace__button_orange" value="+" id="plus" />
+					<input type="button" class="workspace__button_orange" value="-" id="minus" />
+					<input type="button" class="workspace__button_orange" value="%" id="percent" />
+					<input type="button" class="workspace__button_orange" value="^" id="exp" />
+					<input type="button" class="workspace__button_lightGrey" value="=" id="equals" />
+				</div>
+			</div>
+		</div>
+		<script src="js/script.js"></script>
+	</body>
 </html>
