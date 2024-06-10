@@ -227,7 +227,13 @@ function addDot() {
 		isDotWasClicked = true;
 	}
 }
-function addNumber() {
+function checkNumberElement(event) {
+	let target = event.target;
+
+	if (target.id != 'num') return;
+	addNumber(event.target);
+}
+function addNumber(number) {
 	if (isError) {
 		resetAll();
 		isError = true;
@@ -239,9 +245,9 @@ function addNumber() {
 		isPercentWasClicked = false;
 		isDotWasClicked = false;
 		isError = false;
-		monitorText.innerHTML = this.value;
+		monitorText.innerHTML = number.value;
 	} else {
-		monitorText.innerHTML += this.value;
+		monitorText.innerHTML += number.value;
 		checkMaxLength();
 	}
 }
@@ -274,10 +280,8 @@ function checkMaxLength() {
 	}
 }
 // Событие для кнопок-чисел (будет переписано под делегирование)
-let elemNumber = document.querySelectorAll('#num');
-for (let i = 0; i <= 9; i++) {
-	elemNumber[i].addEventListener('click', addNumber);
-}
+let elemWorkspace = document.querySelector('.body');
+elemWorkspace.addEventListener('click', checkNumberElement);
 
 // Событие для кнопки "DEL"
 let elemDelete = document.querySelector('#del');
