@@ -1,8 +1,8 @@
 // Информация в мониторе
-let monitorText = document.querySelector('.monitor__text');
-let monitorAction = document.querySelector('.monitor__action');
+const monitorText = document.querySelector('.monitor__text');
+const monitorAction = document.querySelector('.monitor__action');
 // Максимальная длина чисел в мониторе
-let maxMonitorText = 13;
+const maxMonitorText = 13;
 
 // Информация о действиях
 let actionNow = null;
@@ -12,16 +12,27 @@ let isActionJustClicked,
 	isPercentWasClicked,
 	isDotWasClicked = false;
 
+// Типы действий
+const actionType = {
+	plus: '+',
+	minus: '-',
+	multiply: '*',
+	divide: '/',
+	exp: '^',
+	percent: '%',
+	equals: '=',
+};
+
 // Числа, над которыми производятся действия
 let firstNumber,
 	secondNumber,
 	finalNumber = null;
 
-// Функции кнопок
-function actionPlus() {
+// Кнопка действий (+, -, *, /, ^)
+function addAction(operationType) {
 	if (isActionJustClicked) {
-		monitorAction.innerHTML = '+';
-		actionNow = '+';
+		monitorAction.innerHTML = operationType;
+		actionNow = operationType;
 		return;
 	}
 	isActionJustClicked = true;
@@ -32,117 +43,19 @@ function actionPlus() {
 			return;
 		}
 		monitorText.innerHTML = finalNumber;
+		monitorAction.innerHTML = operationType;
 		if (checkMaxLength()) {
 			return;
 		}
 		firstNumber = finalNumber;
-		actionNow = '+';
+		actionNow = operationType;
 	} else {
-		actionNow = '+';
-		monitorAction.innerHTML = '+';
+		actionNow = operationType;
+		monitorAction.innerHTML = operationType;
 		firstNumber = monitorText.textContent;
 	}
 }
-function actionMinus() {
-	if (isActionJustClicked) {
-		monitorAction.innerHTML = '-';
-		actionNow = '-';
-		return;
-	}
-	isActionJustClicked = true;
-	if (actionNow) {
-		secondNumber = monitorText.textContent;
-		doAction();
-		if (checkUnexpectedError()) {
-			return;
-		}
-		monitorText.innerHTML = finalNumber;
-		if (checkMaxLength()) {
-			return;
-		}
-		firstNumber = finalNumber;
-		actionNow = '-';
-	} else {
-		actionNow = '-';
-		monitorAction.innerHTML = '-';
-		firstNumber = monitorText.textContent;
-	}
-}
-function actionMultiply() {
-	if (isActionJustClicked) {
-		monitorAction.innerHTML = '*';
-		actionNow = '*';
-		return;
-	}
-	isActionJustClicked = true;
-	if (actionNow) {
-		secondNumber = monitorText.textContent;
-		doAction();
-		if (checkUnexpectedError()) {
-			return;
-		}
-		monitorText.innerHTML = finalNumber;
-		if (checkMaxLength()) {
-			return;
-		}
-		firstNumber = finalNumber;
-		actionNow = '*';
-	} else {
-		actionNow = '*';
-		monitorAction.innerHTML = '*';
-		firstNumber = monitorText.textContent;
-	}
-}
-function actionDivide() {
-	if (isActionJustClicked) {
-		monitorAction.innerHTML = '/';
-		actionNow = '/';
-		return;
-	}
-	isActionJustClicked = true;
-	if (actionNow) {
-		secondNumber = monitorText.textContent;
-		doAction();
-		if (checkUnexpectedError()) {
-			return;
-		}
-		monitorText.innerHTML = finalNumber;
-		if (checkMaxLength()) {
-			return;
-		}
-		firstNumber = finalNumber;
-		actionNow = '/';
-	} else {
-		actionNow = '/';
-		monitorAction.innerHTML = '/';
-		firstNumber = monitorText.textContent;
-	}
-}
-function actionExp() {
-	if (isActionJustClicked) {
-		monitorAction.innerHTML = '^';
-		actionNow = '^';
-		return;
-	}
-	isActionJustClicked = true;
-	if (actionNow) {
-		secondNumber = monitorText.textContent;
-		doAction();
-		if (checkUnexpectedError()) {
-			return;
-		}
-		monitorText.innerHTML = finalNumber;
-		if (checkMaxLength()) {
-			return;
-		}
-		firstNumber = finalNumber;
-		actionNow = '^';
-	} else {
-		actionNow = '^';
-		monitorAction.innerHTML = '^';
-		firstNumber = monitorText.textContent;
-	}
-}
+// Кнопка %
 function actionPercent() {
 	if (!isPercentWasClicked) {
 		isPercentWasClicked = true;
@@ -165,28 +78,29 @@ function actionPercent() {
 		}
 	}
 }
+// Выполнение действия (+, -, *, /, ^, %)
 function doAction() {
 	switch (actionNow) {
-		case '+':
+		case actionType.plus:
 			finalNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
 			finalNumber = parseFloat(finalNumber.toFixed(3));
 			break;
-		case '-':
+		case actionType.minus:
 			finalNumber = parseFloat(firstNumber) - parseFloat(secondNumber);
 			finalNumber = parseFloat(finalNumber.toFixed(3));
 			break;
-		case '*':
+		case actionType.multiply:
 			finalNumber = parseFloat(firstNumber) * parseFloat(secondNumber);
 			break;
-		case '/':
+		case actionType.divide:
 			finalNumber = parseFloat(firstNumber) / parseFloat(secondNumber);
 			finalNumber = parseFloat(finalNumber.toFixed(5));
 			break;
-		case '^':
+		case actionType.exp:
 			finalNumber = Math.pow(parseFloat(firstNumber), parseFloat(secondNumber));
 			finalNumber = parseFloat(finalNumber.toFixed(5));
 			break;
-		case '%':
+		case actionType.percent:
 			finalNumber = parseFloat(firstNumber) + parseFloat(secondNumber);
 			finalNumber = parseFloat(finalNumber.toFixed(3));
 			break;
@@ -194,13 +108,15 @@ function doAction() {
 			break;
 	}
 }
+// Кнопка =
 function actionEquals() {
 	isEqualsJustClicked = true;
 	if (isActionJustClicked || !firstNumber) {
-		monitorAction.innerHTML = '=';
+		monitorAction.innerHTML = actionType.equals;
 		return;
 	}
 	secondNumber = monitorText.textContent;
+	monitorAction.innerHTML = actionType.equals;
 	doAction();
 	if (checkUnexpectedError()) {
 		return;
@@ -210,14 +126,15 @@ function actionEquals() {
 		return;
 	}
 	actionNow = null;
-	monitorAction.innerHTML = '=';
 	return;
 }
+// Кнопка DEL
 function actionDel() {
 	monitorText.innerHTML = 0;
 	monitorAction.innerHTML = '';
 	resetAll();
 }
+// Кнопка .
 function addDot() {
 	if (!isDotWasClicked) {
 		monitorText.innerHTML += this.value;
@@ -227,7 +144,8 @@ function addDot() {
 		isDotWasClicked = true;
 	}
 }
-function addNumber() {
+// Кнопка добавление номера
+function addNumber(number) {
 	if (isError) {
 		resetAll();
 		isError = true;
@@ -239,9 +157,9 @@ function addNumber() {
 		isPercentWasClicked = false;
 		isDotWasClicked = false;
 		isError = false;
-		monitorText.innerHTML = this.value;
+		monitorText.innerHTML = number.value;
 	} else {
-		monitorText.innerHTML += this.value;
+		monitorText.innerHTML += number.value;
 		checkMaxLength();
 	}
 }
@@ -273,43 +191,37 @@ function checkMaxLength() {
 		return true;
 	}
 }
-// Событие для кнопок-чисел (будет переписано под делегирование)
-let elemNumber = document.querySelectorAll('#num');
-for (let i = 0; i <= 9; i++) {
-	elemNumber[i].addEventListener('click', addNumber);
+
+// Функции делегирования
+function checkNumberElement(event) {
+	let target = event.target;
+
+	if (target.id != 'num') return;
+	addNumber(event.target);
 }
+function checkActionElement(event) {
+	let target = event.target;
+
+	if (target.id != 'action') return;
+	addAction(target.value);
+}
+// События для кнопок чисел и действий (+, -, *, /, ^)
+const elemWorkspace = document.querySelector('.calculator__workspace');
+elemWorkspace.addEventListener('click', checkNumberElement);
+elemWorkspace.addEventListener('click', checkActionElement);
 
 // Событие для кнопки "DEL"
-let elemDelete = document.querySelector('#del');
+const elemDelete = document.querySelector('#del');
 elemDelete.addEventListener('click', actionDel);
 
 // Событие для кнопки "."
-let elemDot = document.querySelector('#dot');
+const elemDot = document.querySelector('#dot');
 elemDot.addEventListener('click', addDot);
 
 // Событие для кнопки "="
-let elemEquals = document.querySelector('#equals');
+const elemEquals = document.querySelector('#equals');
 elemEquals.addEventListener('click', actionEquals);
 
-// Событие для кнопки "+"
-let elemPlus = document.querySelector('#plus');
-elemPlus.addEventListener('click', actionPlus);
-
-// Событие для кнопки "-"
-let elemMinus = document.querySelector('#minus');
-elemMinus.addEventListener('click', actionMinus);
-
-// Событие для кнопки "*"
-let elemMultiply = document.querySelector('#multiply');
-elemMultiply.addEventListener('click', actionMultiply);
-
-// Событие для кнопки "/"
-let elemDivide = document.querySelector('#divide');
-elemDivide.addEventListener('click', actionDivide);
-
-// Событие для кнопки "^"
-let elemExp = document.querySelector('#exp');
-elemExp.addEventListener('click', actionExp);
-
-let elemPercent = document.querySelector('#percent');
+// Событие для кнопки "%"
+const elemPercent = document.querySelector('#percent');
 elemPercent.addEventListener('click', actionPercent);
