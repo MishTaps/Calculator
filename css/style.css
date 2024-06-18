@@ -1,4 +1,12 @@
-.body {
+html {
+  width: 100%;
+  height: 100%;
+}
+body {
+  width: 100%;
+  height: 100%;
+}
+.main {
   font-size: 20px;
   display: flex;
   justify-content: center;
@@ -17,23 +25,22 @@
   align-items: center;
   height: 120px;
 }
-.monitor__action {
+.display__action {
   color: white;
   font-size: 30px;
   padding: 0 0 0 14px;
-  margin: -30px 0 0 0;
 }
-.monitor__text {
+.display__text {
   color: white;
   font-size: 44px;
   padding: 0 14px 0 0;
 }
-.monitor__error {
+.display__error {
   padding: 5px 5px 0 0;
   width: 50px;
   height: 50px;
 }
-.calculator__monitor {
+.calculator__display {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,80 +60,74 @@
     'num7 num8 num9 percent exp'
     'num0 dots del equals equals';
 }
-.workspace__button_grey {
-  background-color: #404258;
-  color: white;
+.workspace__button {
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 35px;
-  margin: 4px 12px;
   border-width: 0;
+  cursor: pointer;
 }
-.workspace__button_grey:hover {
+.workspace__button--grey {
+  background-color: #404258;
+  color: white;
+  margin: 4px 12px;
+}
+.workspace__button--grey:hover {
   background-color: #54566d;
 }
-.workspace__button_grey:nth-child(1) {
+.workspace__button--grey:nth-child(1) {
   grid-area: num1;
 }
-.workspace__button_grey:nth-child(2) {
+.workspace__button--grey:nth-child(2) {
   grid-area: num2;
 }
-.workspace__button_grey:nth-child(3) {
+.workspace__button--grey:nth-child(3) {
   grid-area: num3;
 }
-.workspace__button_grey:nth-child(4) {
+.workspace__button--grey:nth-child(4) {
   grid-area: num4;
 }
-.workspace__button_grey:nth-child(5) {
+.workspace__button--grey:nth-child(5) {
   grid-area: num5;
 }
-.workspace__button_grey:nth-child(6) {
+.workspace__button--grey:nth-child(6) {
   grid-area: num6;
 }
-.workspace__button_grey:nth-child(7) {
+.workspace__button--grey:nth-child(7) {
   grid-area: num7;
 }
-.workspace__button_grey:nth-child(8) {
+.workspace__button--grey:nth-child(8) {
   grid-area: num8;
 }
-.workspace__button_grey:nth-child(9) {
+.workspace__button--grey:nth-child(9) {
   grid-area: num9;
 }
-.workspace__button_grey:nth-child(10) {
+.workspace__button--grey:nth-child(10) {
   grid-area: dots;
 }
-.workspace__button_grey:nth-child(11) {
+.workspace__button--grey:nth-child(11) {
   grid-area: num0;
 }
-.workspace__button_grey:nth-child(12) {
+.workspace__button--grey:nth-child(12) {
   grid-area: del;
   font-size: 18px;
 }
-.workspace__button_orange {
+.workspace__button--orange {
   background-color: #f49d1a;
   color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 35px;
   margin: 4px 6px;
-  border-width: 0;
 }
-.workspace__button_orange:hover {
+.workspace__button--orange:hover {
   background-color: #d18718;
 }
-.workspace__button_lightGrey {
+.workspace__button--lightGrey {
   background-color: #b2b2b2;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 35px;
+  color: white;
   grid-area: equals;
+  font-size: 36px;
   margin: 4px 6px;
-  font-size: 40px;
-  border-width: 0;
 }
-.workspace__button_lightGrey:hover {
-  background-color: #cbc8c8;
+.workspace__button--lightGrey:hover {
+  background-color: #9c9c9c;
 }
