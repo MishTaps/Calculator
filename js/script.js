@@ -1,15 +1,15 @@
-// Информация в мониторе
-const monitorText = document.querySelector('.monitor__text');
-const monitorAction = document.querySelector('.monitor__action');
-// Максимальная длина чисел в мониторе
-const maxMonitorText = 13;
+// Информация в дисплее
+const displayData = document.querySelector('.display__text');
+const displayAction = document.querySelector('.display__action');
+// Максимальная длина чисел в дисплее
+const MAX_DISPLAY_DATA_LENGTH = 13;
 
 // Информация о действиях
-let actionNow = null;
-let isActionJustClicked,
-	isError,
-	isEqualsJustClicked,
-	isPercentWasClicked,
+let actionNow = null,
+	isActionJustClicked = false,
+	isError = false,
+	isEqualsJustClicked = false,
+	isPercentWasClicked = false,
 	isDotWasClicked = false;
 
 // Типы действий
@@ -24,26 +24,26 @@ const actionType = {
 };
 
 // Числа, над которыми производятся действия
-let firstNumber,
-	secondNumber,
+let firstNumber = null,
+	secondNumber = null,
 	finalNumber = null;
 
 // Кнопка действий (+, -, *, /, ^)
 function addAction(operationType) {
 	if (isActionJustClicked) {
-		monitorAction.innerHTML = operationType;
+		displayAction.innerHTML = operationType;
 		actionNow = operationType;
 		return;
 	}
 	isActionJustClicked = true;
 	if (actionNow) {
-		secondNumber = monitorText.textContent;
+		secondNumber = displayData.textContent;
 		doAction();
 		if (checkUnexpectedError()) {
 			return;
 		}
-		monitorText.innerHTML = finalNumber;
-		monitorAction.innerHTML = operationType;
+		displayData.innerHTML = finalNumber;
+		displayAction.innerHTML = operationType;
 		if (checkMaxLength()) {
 			return;
 		}
@@ -51,8 +51,8 @@ function addAction(operationType) {
 		actionNow = operationType;
 	} else {
 		actionNow = operationType;
-		monitorAction.innerHTML = operationType;
-		firstNumber = monitorText.textContent;
+		displayAction.innerHTML = operationType;
+		firstNumber = displayData.textContent;
 	}
 }
 // Кнопка %
@@ -60,18 +60,18 @@ function actionPercent() {
 	if (!isPercentWasClicked) {
 		isPercentWasClicked = true;
 		if (firstNumber) {
-			secondNumber = (firstNumber / 100) * monitorText.textContent;
-			monitorText.innerHTML = secondNumber;
+			secondNumber = (firstNumber / 100) * displayData.textContent;
+			displayData.innerHTML = secondNumber;
 			if (checkMaxLength()) {
 				return;
 			}
 		} else {
-			firstNumber = monitorText.textContent / 100;
+			firstNumber = displayData.textContent / 100;
 			finalNumber = firstNumber;
 			if (checkUnexpectedError()) {
 				return;
 			}
-			monitorText.innerHTML = firstNumber;
+			displayData.innerHTML = firstNumber;
 			if (checkMaxLength()) {
 				return;
 			}
@@ -112,16 +112,16 @@ function doAction() {
 function actionEquals() {
 	isEqualsJustClicked = true;
 	if (isActionJustClicked || !firstNumber) {
-		monitorAction.innerHTML = actionType.equals;
+		displayAction.innerHTML = actionType.equals;
 		return;
 	}
-	secondNumber = monitorText.textContent;
-	monitorAction.innerHTML = actionType.equals;
+	secondNumber = displayData.textContent;
+	displayAction.innerHTML = actionType.equals;
 	doAction();
 	if (checkUnexpectedError()) {
 		return;
 	}
-	monitorText.innerHTML = finalNumber;
+	displayData.innerHTML = finalNumber;
 	if (checkMaxLength()) {
 		return;
 	}
@@ -130,14 +130,14 @@ function actionEquals() {
 }
 // Кнопка DEL
 function actionDel() {
-	monitorText.innerHTML = 0;
-	monitorAction.innerHTML = '';
+	displayData.innerHTML = 0;
+	displayAction.innerHTML = '';
 	resetAll();
 }
 // Кнопка .
 function addDot() {
 	if (!isDotWasClicked) {
-		monitorText.innerHTML += this.value;
+		displayData.innerHTML += this.value;
 		if (checkMaxLength()) {
 			return;
 		}
@@ -147,19 +147,17 @@ function addDot() {
 // Кнопка добавление номера
 function addNumber(number) {
 	if (isError) {
-		resetAll();
-		isError = true;
-		return;
+		actionDel();
 	}
-	if (monitorText.textContent == '0' || isActionJustClicked || isEqualsJustClicked || isError) {
+	if (displayData.textContent == '0' || isActionJustClicked || isEqualsJustClicked || isError) {
 		isActionJustClicked = false;
 		isEqualsJustClicked = false;
 		isPercentWasClicked = false;
 		isDotWasClicked = false;
 		isError = false;
-		monitorText.innerHTML = number.value;
+		displayData.innerHTML = number.value;
 	} else {
-		monitorText.innerHTML += number.value;
+		displayData.innerHTML += number.value;
 		checkMaxLength();
 	}
 }
@@ -179,15 +177,15 @@ function resetAll() {
 function checkUnexpectedError() {
 	if (!isFinite(finalNumber) || finalNumber == null) {
 		isError = true;
-		monitorText.innerHTML = "<img src='img/error.gif' alt='error' class='monitor__error'>";
+		displayData.innerHTML = "<img src='img/error.gif' alt='error' class='display__error'>";
 		return true;
 	}
 }
 function checkMaxLength() {
-	if (monitorText.textContent.length >= maxMonitorText) {
+	if (displayData.textContent.length >= MAX_DISPLAY_DATA_LENGTH) {
 		resetAll();
 		isError = true;
-		monitorText.textContent = 'too long...';
+		displayData.textContent = 'too long...';
 		return true;
 	}
 }
@@ -196,13 +194,13 @@ function checkMaxLength() {
 function checkNumberElement(event) {
 	let target = event.target;
 
-	if (target.id != 'num') return;
+	if (target.classList[2] != 'num') return;
 	addNumber(event.target);
 }
 function checkActionElement(event) {
 	let target = event.target;
 
-	if (target.id != 'action') return;
+	if (target.classList[2] != 'action') return;
 	addAction(target.value);
 }
 // События для кнопок чисел и действий (+, -, *, /, ^)
